@@ -1,9 +1,9 @@
+import NonDashboardNavbar from "@/components/NonDashboardNavbar"
 
 export default function App() {
   return (
-  <>
-    <p className="bg-side"></p>
-    welcome Mona
-  </>
+    <div className="nondashboard-layout">
+      <NonDashboardNavbar />
+    </div>
   );
 }
