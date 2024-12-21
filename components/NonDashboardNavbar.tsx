@@ -40,6 +40,3 @@ const NonDashboardNavbar = () => {
 
 export default NonDashboardNavbar;
 
-
-git commit --amend --author="monaabishek2003 <monaabisheka@gmail.com>"
-
