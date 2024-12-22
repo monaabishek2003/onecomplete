@@ -1088,7 +1088,8 @@ input[type="color"] {
 
 /* Footer */
 .footer {
-  @apply bg-customgreys-secondarybg bottom-0 w-full py-8 mt-10 text-center text-sm;
+  @apply bg-customgreys-secondarybg py-8  mt-10 text-center text-sm;
+  /* // bottom-0 w-full */
 }
 
 .footer__links {
