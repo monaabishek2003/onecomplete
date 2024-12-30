@@ -120,7 +120,7 @@ const Landing = () => {
         </div>
 
         <div className="landing__courses">
-        `{/* Courses will be fetched from the backend and updated later */}
+        courses{/* Courses will be fetched from the backend and updated later */}
         </div>
       </motion.div>
     </motion.div>
