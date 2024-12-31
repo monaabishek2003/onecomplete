@@ -10,6 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 const LoadingSkeleton = () => {
   return (
     <div className="landing-skeleton">
+      
       <div className="landing-skeleton__hero">
         <div className="landing-skeleton__hero-content">
           <Skeleton className="landing-skeleton__title" />
