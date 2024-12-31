@@ -19,3 +19,4 @@ const useCarousel = ({ totalImages, interval = 3000 }: UseCarouselProps) => {
 };
 
 export default useCarousel;
+
