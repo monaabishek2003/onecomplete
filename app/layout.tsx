@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import Providers from "./providers";
 import "./globals.css";
 import {DM_Sans} from "next/font/google";
 
@@ -22,9 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${dmSans.className}`}
+        className={`${dmSans.className} `}
       >
-        {children}
+      <Providers>
+        <div className="root-layout">{children}</div>
+      </Providers>
       </body>
     </html>
   );
