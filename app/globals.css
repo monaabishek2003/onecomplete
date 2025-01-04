@@ -581,7 +581,7 @@ input[type="color"] {
 .course {
   @apply flex h-[100vh];
 }
-
+  
 .course__container {
   @apply flex-grow mx-auto;
 }
