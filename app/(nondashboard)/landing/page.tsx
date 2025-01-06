@@ -144,7 +144,7 @@ const Landing = () => {
         </div>
       </motion.div>
     </motion.div> 
-  )
+
 
 }
 

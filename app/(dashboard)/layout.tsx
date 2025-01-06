@@ -1,21 +1,22 @@
 import React from "react";
-import Header from "@/components/Header";
+import AppSidebar from "@/components/AppSidebar";
+import Navbar from "@/components/Navbar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 const layout = ({children}: {children: React.ReactNode}) => {
   return (
-    <div className="dashboard">
-      {/* sidebar */}
-      <h1>Sidebar</h1>
-      <div className="dashboard__content">
-        {/* courseSideBar */}
-        course
-        <div className="dashboard__main">
-          {/* navbar */}
-          navbar
-          {children}
+    <SidebarProvider>
+      <div className="dashboard">
+        <AppSidebar/>
+        <div className="dashboard__content">
+          <div className="dashboard__main">
+            <Navbar/>
+            <main className="dashboard__body">{children}</main>
+            
+          </div>
         </div>
       </div>
-    </div>
+    </SidebarProvider>
   )
 }
 
