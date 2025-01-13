@@ -25,6 +25,7 @@ import Loading from "./Loading";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { log } from "console";
 
 const AppSidebar = () => {
   const { user, isLoaded } = useUser();
@@ -51,8 +52,9 @@ const AppSidebar = () => {
   if (!user) return <div>User not found</div>;
 
   const userType =
-    (user.publicMetadata.userType as "student" | "teacher") || "student";
+    (user?.publicMetadata?.userType as "student" | "teacher") || "student";
   const currentNavLinks = navLinks[userType];
+
 
   return (
     <Sidebar
@@ -71,13 +73,13 @@ const AppSidebar = () => {
               <div className="app-sidebar__logo-container group">
                 <div className="app-sidebar__logo-wrapper">
                   <Image
-                    src="/logo.svg"
+                    src="/images/logo.svg"
                     alt="logo"
                     width={25}
                     height={20}
                     className="app-sidebar__logo"
                   />
-                  <p className="app-sidebar__title">EDROH</p>
+                  <p className="app-sidebar__title">{userType}</p>
                 </div>
                 <PanelLeft className="app-sidebar__collapse-icon" />
               </div>
