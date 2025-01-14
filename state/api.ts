@@ -1,5 +1,8 @@
 import { createApi, FetchArgs,  } from "@reduxjs/toolkit/query/react";
 import { BaseQueryApi,fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { User } from "@clerk/nextjs/server";
+import { Clerk } from "@clerk/clerk-js";
+import { toast } from "sonner";
 
 //custom base query 
 const customBaseQuery =  async (
@@ -8,13 +11,43 @@ const customBaseQuery =  async (
   extraOptions: any
 ) => {
   const baseQuery = fetchBaseQuery({ 
-    baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL
+    baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
+    prepareHeaders: async (headers) => {
+      const token = await window.Clerk?.session?.getToken();
+      if(token) headers.set("Authorization", `Bearer ${token}`)
+      return headers;
+    }
   })
 
   try {
-    
     const result: any = await baseQuery(args,api,extraOptions);
-    if(result.data) result.data = result.data.data;
+    
+    if (result.error) {
+      const errorData = result.error.data;
+      const errorMessage =
+        errorData?.message ||
+        result.error.status.toString() ||
+        "An error occurred";
+      toast.error(`Error: ${errorMessage}`);
+    }
+
+    const isMutationRequest =
+      (args as FetchArgs).method && (args as FetchArgs).method !== "GET";
+
+    if (isMutationRequest) {
+      const successMessage = result.data?.message;
+      if (successMessage) toast.success(successMessage);
+    }
+
+    if (result.data) {
+      result.data = result.data.data;
+    } else if (
+      result.error?.status === 204 ||
+      result.meta?.response?.status === 24
+    ) {
+      return { data: null };
+    }
+
     return result;
 
   }catch(error: unknown){
@@ -29,11 +62,19 @@ const customBaseQuery =  async (
 export const api = createApi({
   baseQuery: customBaseQuery,
   reducerPath: "api",
-  tagTypes: ["Courses"],
+  tagTypes: ["Courses", "Users"],
   endpoints: (build) => ({
+    updateUser: build.mutation<User, Partial<User> & { userId: string }>({
+      query: ({ userId, ...updatedUser }) => ({
+        url: `users/clerk/${userId}`,
+        method: "PUT",
+        body: updatedUser,
+      }),
+      invalidatesTags: ["Users"],
+    }),
     getCourses: build.query<Course[], { category?: string }>({
       query: ({ category }) => ({
-        url: "courses",
+        url: "users/clerk/",
         params: { category },
       }),
       providesTags: ["Courses"],
@@ -44,10 +85,11 @@ export const api = createApi({
       }),
       providesTags: (result, error, id) => [{ type: "Courses", id }],
     }),
-  }),
+  })
 });
 
 export const { 
+    useUpdateUserMutation,
     useGetCoursesQuery,
     useGetCourseQuery,
   } = api;
