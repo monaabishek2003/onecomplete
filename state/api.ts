@@ -60,18 +60,11 @@ const customBaseQuery =  async (
 
 //BaseQuery, Definitions, ReducerPath, TagTypes, Modules
 export const api = createApi({
+
   baseQuery: customBaseQuery,
   reducerPath: "api",
   tagTypes: ["Courses", "Users"],
   endpoints: (build) => ({
-    updateUser: build.mutation<User, Partial<User> & { userId: string }>({
-      query: ({ userId, ...updatedUser }) => ({
-        url: `users/clerk/${userId}`,
-        method: "PUT",
-        body: updatedUser,
-      }),
-      invalidatesTags: ["Users"],
-    }),
     getCourses: build.query<Course[], { category?: string }>({
       query: ({ category }) => ({
         url: "users/clerk/",
@@ -85,6 +78,27 @@ export const api = createApi({
       }),
       providesTags: (result, error, id) => [{ type: "Courses", id }],
     }),
+    updateUser: build.mutation<
+        User, 
+        Partial<User> & { userId: string }
+      >({
+      query: ({ userId, ...updatedUser }) => ({
+        url: `users/clerk/${userId}`,
+        method: "PUT",
+        body: updatedUser,
+      }),
+      invalidatesTags: ["Users"],
+    }),
+    createStripePaymentIntent: build.mutation<
+       {clientSecret: string},
+       {amount: number}
+      >({
+      query: ({amount}) => ({
+        url: "transaction/stripe/payment-intent",
+        method: "POST",
+        body: amount,
+      })
+    }),
   })
 });
 
@@ -92,4 +106,5 @@ export const {
     useUpdateUserMutation,
     useGetCoursesQuery,
     useGetCourseQuery,
+    useCreateStripePaymentIntentMutation
   } = api;

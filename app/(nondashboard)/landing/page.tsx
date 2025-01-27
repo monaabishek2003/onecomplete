@@ -144,8 +144,7 @@ const Landing = () => {
         </div>
       </motion.div>
     </motion.div> 
-
-
+  )
 }
 
 export default Landing;
