@@ -67,7 +67,7 @@ export const api = createApi({
   endpoints: (build) => ({
     getCourses: build.query<Course[], { category?: string }>({
       query: ({ category }) => ({
-        url: "users/clerk/",
+        url: "courses",
         params: { category },
       }),
       providesTags: ["Courses"],
@@ -97,7 +97,7 @@ export const api = createApi({
         url: "transaction/stripe/payment-intent",
         method: "POST",
         body: amount,
-      })
+      }),
     }),
   })
 });

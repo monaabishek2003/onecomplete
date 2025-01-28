@@ -52,7 +52,8 @@ const Landing = () => {
   }
   const currentImage = useCarousel({totalImages : 3}) 
   const { data : courses, isLoading, isError} = useGetCoursesQuery({})
-  console.log(courses);
+  // console.log(courses);
+  if(isError) return <div>Failed to fetch course data</div>
   if(isLoading) return <LoadingSkeleton/>
   return (
     <motion.div
